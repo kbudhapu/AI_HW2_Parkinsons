@@ -141,20 +141,42 @@ def information_gain(x, y, index, thold):
     """Compute the information gain on y for a continuous feature in x (using index) by applying a threshold (thold).
 
     NOTE: The threshold should be applied as 'less than or equal to' (<=)"""
-    
     # ***MODIFY CODE HERE***
-    gain = -1
+
+    e = entropy(y)
+    ce = conditional_entropy(x, y, index, thold)
+    gain = e - ce
 
     return gain
 
-def file_read(file):
-    """Reads the file, and outputs an array, with each row being a line from the file"""
-    arr = []
-    with open(file, "r") as f:
-        for line in f:
-            arr.append(line.rstrip("\n").split(","))
-    f.close()
-    return arr
+def entropy(y):
+    """compute the entropy of the attribute at the index in dataset x given the threshold"""
+    count = 0
+    for i in y:
+        if i == 0:
+            count += 1
+    prob = count/len(y)
+    e = -1 * prob * np.log2(prob) + -1 * (1-prob) * np.log2(1-prob)
+    return e
+
+def conditional_entropy(x, y, index, thold):
+    """comput the conditional entropy of y given the attribute corresponding to the index"""
+    counts = [0, 0, 0, 0, 0, 0]
+    for i in range(len(x)):
+        if x[i][index] <= thold:
+            if y[i] == 0:
+                counts[1] += 1
+            else:
+                counts[2] += 1
+            counts[0] += 1
+        else:
+            if y[i] == 0:
+                counts[4] += 1
+            else:
+                counts[5] += 1
+            counts[3] += 1
+    ce = (counts[0]/len(x))*(-1*(counts[1]/counts[0])*np.log2(counts[1]/counts[0]) + -1*(counts[2]/counts[0])*np.log2(counts[2]/counts[0])) + (counts[3]/len(x))*(-1*(counts[4]/counts[3])*np.log2(counts[4]/counts[3]) + -1*(counts[5]/counts[3])*np.log2(counts[5]/counts[3]))
+    return ce
 
 if __name__ == '__main__':
     main(parser.parse_args())
