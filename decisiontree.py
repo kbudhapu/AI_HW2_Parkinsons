@@ -66,13 +66,14 @@ def main(args):
     # Use a DecisionTreeClassifier to learn the full tree from training data
     print("Training the entire tree...")
     # ***MODIFY CODE HERE***
-    clf = DecisionTreeClassifier()
-    clf = clf.fit(xtrain,ytrain)
+    clf = DecisionTreeClassifier(criterion='entropy')
+    clf.fit(xtrain,ytrain)
 
     # Visualize the tree using matplotlib and plot_tree
     fig, axes = plt.subplots(nrows=1, ncols=1, figsize=(12, 5), dpi=150)
     # ***MODIFY CODE HERE***
-    plot_tree(clf,feature_names=attributes)
+    classNames = ["parkinson's","healthy"]
+    plot_tree(clf,feature_names=attributes,class_names=classNames,filled=True,rounded=True)
 
     if args.save:
         filename = os.path.expanduser(os.path.join(THIS, 'tree.png'))
@@ -114,20 +115,24 @@ def main(args):
 
     total_correct_test = 0
     for i in range(len(ptest)):
+        print(ptest[i],end = " ")
+        print(ytest[i])
         if ptest[i] == ytest[i]:
             total_correct_test += 1
     accuracy_test = total_correct_test / len(ptest)
     
-    print(f"Training Accuracy: {total_correct_train}/{len(ptrain)} ({accuracy_train}%)")
-    print(f"Testing Accuracy: {total_correct_test}/{len(ptest)} ({accuracy_test}%)")
+    print(f"Training Accuracy: {total_correct_train}/{len(ptrain)} ({accuracy_train*100}%)")
+    print(f"Testing Accuracy: {total_correct_test}/{len(ptest)} ({accuracy_test*100}%)")
 
     # Show the confusion matrix for test data
     # ***MODIFY CODE HERE***
 
+
+
     cm = confusion_matrix(ytest, ptest)
     print("Confusion matrix:")
     print(cm)
-    
+
     # Debug (if requested)
     if args.debug:
         pdb.set_trace()
