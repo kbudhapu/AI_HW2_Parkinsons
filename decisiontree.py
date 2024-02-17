@@ -11,6 +11,7 @@ from sklearn.metrics import confusion_matrix
 
 # ***MODIFY CODE HERE***
 ROOT = 'data'  # change to path where data is stored
+ROOT = 'data'  # change to path where data is stored
 THIS = os.path.dirname(os.path.realpath(__file__))  # the current directory of this file
 
 parser = argparse.ArgumentParser(description="Use a Decision Tree model to predict Parkinson's disease.")
@@ -127,6 +128,15 @@ def information_gain(x, y, index, thold):
     gain = -1
 
     return gain
+
+def file_read(file):
+    """Reads the file, and outputs an array, with each row being a line from the file"""
+    arr = []
+    with open(file, "r") as f:
+        for line in f:
+            arr.append(line.rstrip("\n").split(","))
+    f.close()
+    return arr
 
 if __name__ == '__main__':
     main(parser.parse_args())
