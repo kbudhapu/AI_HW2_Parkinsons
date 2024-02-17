@@ -85,7 +85,6 @@ def main(args):
     # Validating the root node of the tree by computing information gain
     print("Computing the information gain for the root node...")
     # ***MODIFY CODE HERE***
-    #index, thold = -1, -1
     index = clf.tree_.feature[0]  # index of the attribute that was determined to be the root node
     thold = clf.tree_.threshold[0]  # threshold on that attribute
     gain = information_gain(xtrain, ytrain, index, thold)
@@ -129,7 +128,10 @@ def main(args):
 
     cm = confusion_matrix(ytest, ptest)
     print("Confusion matrix:")
-    print(cm)
+    for i in cm:
+        for j in i:
+            print(f"{j:>4}", end="")
+        print()
 
     # Debug (if requested)
     if args.debug:
