@@ -115,8 +115,6 @@ def main(args):
 
     total_correct_test = 0
     for i in range(len(ptest)):
-        print(ptest[i],end = " ")
-        print(ytest[i])
         if ptest[i] == ytest[i]:
             total_correct_test += 1
     accuracy_test = total_correct_test / len(ptest)
