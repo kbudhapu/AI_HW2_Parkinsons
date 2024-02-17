@@ -10,7 +10,7 @@ from sklearn.tree import DecisionTreeClassifier, plot_tree
 from sklearn.metrics import confusion_matrix
 
 # ***MODIFY CODE HERE***
-ROOT = '~/OneDrive - flsouthern.edu/csc3520/assignments/hw2/data'  # change to path where data is stored
+ROOT = 'data'  # change to path where data is stored
 THIS = os.path.dirname(os.path.realpath(__file__))  # the current directory of this file
 
 parser = argparse.ArgumentParser(description="Use a Decision Tree model to predict Parkinson's disease.")
@@ -49,13 +49,13 @@ def main(args):
     # Load data from relevant files
     # ***MODIFY CODE HERE***
     print(f"Loading training data from: {os.path.basename(training_data_path)}")
-    xtrain = -1
+    xtrain = file_read(training_data_path)
     print(f"Loading training labels from: {os.path.basename(training_labels_path)}")
-    ytrain = -1
+    ytrain = file_read(training_labels_path)
     print(f"Loading testing data from: {os.path.basename(testing_data_path)}")
-    xtest = -1
+    xtest = file_read(testing_data_path)
     print(f"Loading testing labels from: {os.path.basename(testing_labels_path)}")
-    ytest = -1
+    ytest = file_read(testing_labels_path)
     print(f"Loading attributes from: {os.path.basename(attributes_path)}")
     attributes = [-1]
 
@@ -126,6 +126,15 @@ def information_gain(x, y, index, thold):
     gain = -1
 
     return gain
+
+def file_read(file):
+    """Reads the file, and outputs an array, with each row being a line from the file"""
+    arr = []
+    with open(file, "r") as f:
+        for line in f:
+            arr.append(line.rstrip("\n").split(","))
+    f.close()
+    return arr
 
 if __name__ == '__main__':
     main(parser.parse_args())
