@@ -72,7 +72,7 @@ def main(args):
     # Visualize the tree using matplotlib and plot_tree
     fig, axes = plt.subplots(nrows=1, ncols=1, figsize=(12, 5), dpi=150)
     # ***MODIFY CODE HERE***
-    plot_tree(clf)
+    plot_tree(clf,feature_names=attributes)
 
     if args.save:
         filename = os.path.expanduser(os.path.join(THIS, 'tree.png'))
@@ -84,9 +84,9 @@ def main(args):
     # Validating the root node of the tree by computing information gain
     print("Computing the information gain for the root node...")
     # ***MODIFY CODE HERE***
-    index, thold = -1, -1
-    # index = clf.tree_.feature[0]  # index of the attribute that was determined to be the root node
-    # thold = clf.tree_.threshold[0]  # threshold on that attribute
+    #index, thold = -1, -1
+    index = clf.tree_.feature[0]  # index of the attribute that was determined to be the root node
+    thold = clf.tree_.threshold[0]  # threshold on that attribute
     gain = information_gain(xtrain, ytrain, index, thold)
     print(f"  Root: {attributes[index]}<={thold:0.3f}, Gain: {gain:0.3f}")
 
@@ -96,9 +96,9 @@ def main(args):
     print("=======================")
     # ***MODIFY CODE HERE***
     print("Predicting labels for training data...")
-    ptrain = -1
+    ptrain = clf.predict(xtrain)
     print("Predicting labels for testing data...")
-    ptest = -1
+    ptest = clf.predict(xtest)
 
     print("\n=======================")
     print("PERFORMANCE METRICS")
@@ -106,15 +106,28 @@ def main(args):
 
     # Compare training and test accuracy
     # ***MODIFY CODE HERE***
-    accuracy_train = -1
-    accuracy_test = -1
-    print(f"Training Accuracy: ?/? (?%)")
-    print(f"Testing Accuracy: ?/? (?%)")
+    total_correct_train = 0
+    for i in range(len(ptrain)):
+        if ptrain[i] == ytrain[i]:
+            total_correct_train += 1
+    accuracy_train = total_correct_train / len(ptrain)
+
+    total_correct_test = 0
+    for i in range(len(ptest)):
+        if ptest[i] == ytest[i]:
+            total_correct_test += 1
+    accuracy_test = total_correct_test / len(ptest)
+    
+    print(f"Training Accuracy: {total_correct_train}/{len(ptrain)} ({accuracy_train}%)")
+    print(f"Testing Accuracy: {total_correct_test}/{len(ptest)} ({accuracy_test}%)")
 
     # Show the confusion matrix for test data
     # ***MODIFY CODE HERE***
-    print("Confusion matrix:")
 
+    cm = confusion_matrix(ytest, ptest)
+    print("Confusion matrix:")
+    print(cm)
+    
     # Debug (if requested)
     if args.debug:
         pdb.set_trace()
