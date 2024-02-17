@@ -10,7 +10,7 @@ from sklearn.tree import DecisionTreeClassifier, plot_tree
 from sklearn.metrics import confusion_matrix
 
 # ***MODIFY CODE HERE***
-ROOT = '~/OneDrive - flsouthern.edu/csc3520/assignments/hw2/data'  # change to path where data is stored
+ROOT = 'data'  # change to path where data is stored
 THIS = os.path.dirname(os.path.realpath(__file__))  # the current directory of this file
 
 parser = argparse.ArgumentParser(description="Use a Decision Tree model to predict Parkinson's disease.")
@@ -49,15 +49,15 @@ def main(args):
     # Load data from relevant files
     # ***MODIFY CODE HERE***
     print(f"Loading training data from: {os.path.basename(training_data_path)}")
-    xtrain = -1
+    xtrain = np.loadtxt(training_data_path, dtype=float, delimiter=",")
     print(f"Loading training labels from: {os.path.basename(training_labels_path)}")
-    ytrain = -1
+    ytrain = np.loadtxt(training_labels_path, dtype=int)
     print(f"Loading testing data from: {os.path.basename(testing_data_path)}")
-    xtest = -1
+    xtest = np.loadtxt(testing_data_path, dtype=float,delimiter=",")
     print(f"Loading testing labels from: {os.path.basename(testing_labels_path)}")
-    ytest = -1
+    ytest = np.loadtxt(testing_labels_path, dtype=int)
     print(f"Loading attributes from: {os.path.basename(attributes_path)}")
-    attributes = [-1]
+    attributes = np.loadtxt(attributes_path, dtype=str)
 
     print("\n=======================")
     print("TRAINING")
@@ -65,12 +65,13 @@ def main(args):
     # Use a DecisionTreeClassifier to learn the full tree from training data
     print("Training the entire tree...")
     # ***MODIFY CODE HERE***
-    clf = -1
+    clf = DecisionTreeClassifier()
+    clf = clf.fit(xtrain,ytrain)
 
     # Visualize the tree using matplotlib and plot_tree
     fig, axes = plt.subplots(nrows=1, ncols=1, figsize=(12, 5), dpi=150)
     # ***MODIFY CODE HERE***
-    # plot_tree(clf)
+    plot_tree(clf)
 
     if args.save:
         filename = os.path.expanduser(os.path.join(THIS, 'tree.png'))
