@@ -160,7 +160,7 @@ def entropy(y):
     return e
 
 def conditional_entropy(x, y, index, thold):
-    """comput the conditional entropy of y given the attribute corresponding to the index"""
+    """compute the conditional entropy of y given the attribute corresponding to the index by applying the threshold"""
     counts = [0, 0, 0, 0, 0, 0]
     for i in range(len(x)):
         if x[i][index] <= thold:
