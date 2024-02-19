@@ -150,7 +150,7 @@ def information_gain(x, y, index, thold):
     return gain
 
 def entropy(y):
-    """compute the entropy of the attribute at the index in dataset x given the threshold"""
+    """compute the entropy of y for the dataset"""
     count = 0
     for i in y:
         if i == 0:
