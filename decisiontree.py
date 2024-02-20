@@ -8,6 +8,7 @@ import os
 import pdb
 from sklearn.tree import DecisionTreeClassifier, plot_tree
 from sklearn.metrics import confusion_matrix
+import random
 
 # ***MODIFY CODE HERE***
 ROOT = 'data'  # change to path where data is stored
@@ -66,7 +67,7 @@ def main(args):
     # Use a DecisionTreeClassifier to learn the full tree from training data
     print("Training the entire tree...")
     # ***MODIFY CODE HERE***
-    clf = DecisionTreeClassifier(criterion='entropy')
+    clf = DecisionTreeClassifier(criterion='entropy',random_state=0)
     clf.fit(xtrain,ytrain)
 
     # Visualize the tree using matplotlib and plot_tree
