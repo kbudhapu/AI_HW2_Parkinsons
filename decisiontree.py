@@ -144,25 +144,32 @@ def information_gain(x, y, index, thold):
     NOTE: The threshold should be applied as 'less than or equal to' (<=)"""
     # ***MODIFY CODE HERE***
 
-    e = entropy(y)
-    ce = conditional_entropy(x, y, index, thold)
-    gain = e - ce
+    e = entropy(y)  # H(Y)
+    ce = conditional_entropy(x, y, index, thold)    #H(Y|X)
+    gain = e - ce   #G(Y|X) = H(Y) - H(Y|X)
 
     return gain
 
 def entropy(y):
     """compute the entropy of y for the dataset"""
-    count = 0
+    count = 0   #Amount of labels that are 0 in the list y
     for i in y:
         if i == 0:
             count += 1
-    prob = count/len(y)
-    e = -1 * prob * np.log2(prob) + -1 * (1-prob) * np.log2(1-prob)
+    prob = count/len(y) #𝑃(y = 0) 
+    e = -1 * prob * np.log2(prob) + -1 * (1-prob) * np.log2(1-prob) #-P(y = 0)*log2(P(y = 0)) - P(y = 1)*log2(P(y = 1))
     return e
 
 def conditional_entropy(x, y, index, thold):
     """compute the conditional entropy of y given the attribute corresponding to the index by applying the threshold"""
     counts = [0, 0, 0, 0, 0, 0]
+    # counts[0] = Every value of x that was <= the threshold
+    # counts[1] = Every value of x that was <= the threshold and had a label of 0
+    # counts[2] = Every value of x that was <= the threshold and had a label of 1
+    # counts[3] = Every value of x that was > the threshold
+    # counts[4] = Every value of x that was > the threshold and had a label of 0
+    # counts[5] = Every value of x that was > the threshold and had a label of 1
+
     for i in range(len(x)):
         if x[i][index] <= thold:
             if y[i] == 0:
@@ -176,6 +183,8 @@ def conditional_entropy(x, y, index, thold):
             else:
                 counts[5] += 1
             counts[3] += 1
+
+    # P(x <= thold)*(-P(y = 0|x <= thold)*log2(P(y = 0|x <= thold)) - P(y = 1|x <= thold)*log2(P(y = 1|x <= thold))) + P(X > thold)*(-P(y = 0|x > thold)*log2(P(y = 0|x > thold)) - P(y = 1|x > th*old)log2(P(y = 1|x > thold)))
     ce = (counts[0]/len(x))*(-1*(counts[1]/counts[0])*np.log2(counts[1]/counts[0]) + -1*(counts[2]/counts[0])*np.log2(counts[2]/counts[0])) + (counts[3]/len(x))*(-1*(counts[4]/counts[3])*np.log2(counts[4]/counts[3]) + -1*(counts[5]/counts[3])*np.log2(counts[5]/counts[3]))
     return ce
 
