@@ -107,25 +107,15 @@ def main(args):
 
     # Compare training and test accuracy
     # ***MODIFY CODE HERE***
-    total_correct_train = 0
-    for i in range(len(ptrain)):
-        if ptrain[i] == ytrain[i]:
-            total_correct_train += 1
-    accuracy_train = total_correct_train / len(ptrain)
 
-    total_correct_test = 0
-    for i in range(len(ptest)):
-        if ptest[i] == ytest[i]:
-            total_correct_test += 1
-    accuracy_test = total_correct_test / len(ptest)
+    accuracy_train = np.mean(ptrain == ytrain)
+    accuracy_test = np.mean(ptest == ytest)
     
-    print(f"Training Accuracy: {total_correct_train}/{len(ptrain)} ({accuracy_train*100}%)")
-    print(f"Testing Accuracy: {total_correct_test}/{len(ptest)} ({accuracy_test*100}%)")
+    print(f"Training Accuracy: {np.sum(ptrain == ytrain)}/{len(ptrain)} ({accuracy_train*100}%)")
+    print(f"Testing Accuracy: {np.sum(ptest == ytest)}/{len(ptest)} ({accuracy_test*100}%)")
 
     # Show the confusion matrix for test data
     # ***MODIFY CODE HERE***
-
-
 
     cm = confusion_matrix(ytest, ptest)
     print("Confusion matrix:")
