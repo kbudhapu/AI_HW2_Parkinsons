@@ -73,7 +73,7 @@ def main(args):
     # Visualize the tree using matplotlib and plot_tree
     fig, axes = plt.subplots(nrows=1, ncols=1, figsize=(12, 5), dpi=150)
     # ***MODIFY CODE HERE***
-    classNames = ["parkinson's","healthy"]
+    classNames = ["healthy", "parkinsons"]
     plot_tree(clf,feature_names=attributes,class_names=classNames,filled=True,rounded=True)
 
     if args.save:
